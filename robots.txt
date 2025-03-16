@@ -1,6 +1,6 @@
 User-agent: *
-Allow: /
 Disallow: /private/
+Allow: /
 Crawl-delay: 2
 
 Sitemap: https://xenon31.github.io/Xenon/sitemap.xml
