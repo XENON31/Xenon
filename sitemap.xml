@@ -2,8 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://xenon31.github.io/Xenon/</loc>
-        <lastmod>2024-01-01</lastmod>
+        <lastmod>2025-03-16</lastmod> <!-- تم التحديث لتاريخ الزحف الأخير -->
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
+    </url>
+    
+    <!-- إضافة روابط الأقسام الداخلية كصفحات افتراضية -->
+    <url>
+        <loc>https://xenon31.github.io/Xenon/#morning</loc>
+        <lastmod>2025-03-16</lastmod>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://xenon31.github.io/Xenon/#evening</loc>
+        <lastmod>2025-03-16</lastmod>
+        <priority>0.8</priority>
     </url>
 </urlset>
