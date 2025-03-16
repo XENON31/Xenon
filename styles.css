@@ -191,6 +191,15 @@
         animation: pulse 2s infinite;
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
+    #h2{
+        
+        background: #e3f2fd;
+        border-width: 50%;
+        border-radius: 8%;
+        align-items: center;
+        text-align: center;
+        padding: 5px;
+    }        
 
     .hint-box span {
         font-weight: bold;
@@ -198,6 +207,24 @@
         align-items: center;
         gap: 5px;
     }
+            
+     #morningSection{
+         background-image: url('img/1.jpg');
+         background-attachment: fixed;
+         background-size: cover;
+         background-position: center;
+         color: #fff;
+         padding: 20px;
+     }   
+            
+     #eveningSection{
+         background-image: url('img/2.jpg');
+         background-attachment: fixed;
+         background-size: cover;
+         background-position: center;
+         color: #fff;
+         padding: 20px;
+     }            
 
     @keyframes pulse {
         0% { transform: scale(1); }
