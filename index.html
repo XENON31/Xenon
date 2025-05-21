@@ -28,6 +28,8 @@
     <meta property="og:url" content="https://xenon31.github.io/Xenon/">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" media="print" onload="this.media='all'">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icons/icon-192x192.png">
 </head>
 <body>
     <header class="page-header">
@@ -111,7 +113,7 @@
             <li>اللهم عافني في بدني، اللهم عافني في سمعي، اللهم عافني في بصري، لا إله إلا أنت، اللهم إني أعوذ بك من الكفر والفقر، اللهم إني أعوذ بك من عذاب القبر، لا إله إلا أنت. (ثلاث مرات)</li>
             <li>قراءة سور: الإخلاص، والفلق، والناس. (ثلاث مرات)</li>
             <li>{حسبي الله لا إله إلا هو عليه توكلت وهو رب العرش العظيم} (التوبة:129). (سبع مرات)</li>
-            <li>اللهم إني أصبحت، أشهدك وأشهد حملة عرشك وملائكتك وجميع خلقك أنك أنت الله، وحدك لا شريك لك، وأن محمداً عبدك ورسولك. (أربع مرات)</li>
+            <li>اللهم إني أمسيت، أشهدك وأشهد حملة عرشك وملائكتك وجميع خلقك أنك أنت الله، وحدك لا شريك لك، وأن محمداً عبدك ورسولك. (أربع مرات)</li>
             <li>لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، يحيي ويميت، وهو على كل شيء قدير. (عشر مرات)</li>
             <li>سبحان الله وبحمده. أو: سبحان الله العظيم وبحمده. (مائة مرة أو أكثر)</li>
             <li>أستغفر الله. (مائة مرة)</li>
@@ -170,5 +172,48 @@
 
         window.onload = () => showSection('morning');
     </script>
+    <script>
+  // تسجيل Service Worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+  }
+
+  // طلب الإذن للإشعارات
+  Notification.requestPermission().then(perm => {
+    if (perm === 'granted') {
+      scheduleNotifications();
+    }
+  });
+
+  // جدولة الإشعارات
+  function scheduleNotifications() {
+    const now = new Date();
+    
+    // وقت الصباح (6 AM)
+    const morningTime = new Date();
+    morningTime.setHours(6, 0, 0, 0);
+    
+    // وقت المساء (6 PM)
+    const eveningTime = new Date();
+    eveningTime.setHours(18, 0, 0, 0);
+
+    // جدولة إشعار الصباح
+    if (now < morningTime) {
+      setTimeout(() => showNotification('أذكار الصباح'), morningTime - now);
+    }
+
+    // جدولة إشعار المساء
+    if (now < eveningTime) {
+      setTimeout(() => showNotification('أذكار المساء'), eveningTime - now);
+    }
+  }
+
+  function showNotification(title) {
+    new Notification(title, {
+      body: 'حان وقت قراءة الأذكار اليومية!',
+      icon: '/icons/icon-192x192.png'
+    });
+  }
+</script>
 </body>
 </html>
