@@ -172,48 +172,42 @@
 
         window.onload = () => showSection('morning');
     </script>
+  
     <script>
   // تسجيل Service Worker
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js');
+    navigator.serviceWorker.register('/Xenon/sw.js'); // التصحيح هنا
   }
 
-  // طلب الإذن للإشعارات
-  Notification.requestPermission().then(perm => {
-    if (perm === 'granted') {
-      scheduleNotifications();
-    }
+  let deferredPrompt;
+
+  // اعتراض الحدث قبل عرض مطالبة التثبيت
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    
+    // إنشاء زر التثبيت
+    const installButton = document.createElement('button');
+    installButton.textContent = 'ثبِّت التطبيق';
+    installButton.className = 'nav-btn';
+    installButton.style.margin = '10px auto';
+    installButton.style.display = 'block'; // تصحيح التداخل
+    installButton.onclick = () => {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(() => {
+        deferredPrompt = null;
+        installButton.style.display = 'none'; // إخفاء الزر بعد التثبيت
+      });
+    };
+    
+    document.querySelector('.nav-buttons').appendChild(installButton);
   });
 
-  // جدولة الإشعارات
-  function scheduleNotifications() {
-    const now = new Date();
-    
-    // وقت الصباح (6 AM)
-    const morningTime = new Date();
-    morningTime.setHours(6, 0, 0, 0);
-    
-    // وقت المساء (6 PM)
-    const eveningTime = new Date();
-    eveningTime.setHours(18, 0, 0, 0);
-
-    // جدولة إشعار الصباح
-    if (now < morningTime) {
-      setTimeout(() => showNotification('أذكار الصباح'), morningTime - now);
-    }
-
-    // جدولة إشعار المساء
-    if (now < eveningTime) {
-      setTimeout(() => showNotification('أذكار المساء'), eveningTime - now);
-    }
-  }
-
-  function showNotification(title) {
-    new Notification(title, {
-      body: 'حان وقت قراءة الأذكار اليومية!',
-      icon: '/icons/icon-192x192.png'
-    });
-  }
+  // إخفاء الزر إذا تم التثبيت مسبقًا
+  window.addEventListener('appinstalled', () => {
+    const installButton = document.querySelector('.nav-btn[onclick]');
+    if (installButton) installButton.style.display = 'none';
+  });
 </script>
 </body>
 </html>
