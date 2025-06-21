@@ -57,6 +57,7 @@
     </header>
 
     <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
     
     <div class="sidebar">
         <div class="counter-box">
@@ -188,43 +189,21 @@
         });
 
         window.onload = () => showSection('morning');
+        function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+
+    // حفظ الوضع في التخزين المحلي
+    const isDark = document.body.classList.contains("dark-mode");
+    localStorage.setItem("darkMode", isDark);
+}
+
+// تطبيق الوضع عند تحميل الصفحة حسب ما تم حفظه مسبقًا
+window.onload = () => {
+    showSection('morning');
+    if (localStorage.getItem("darkMode") === "true") {
+        document.body.classList.add("dark-mode");
+    }
+};
     </script>
-  
-    <script>
-  // تسجيل Service Worker
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/Xenon/sw.js'); // التصحيح هنا
-  }
-
-  let deferredPrompt;
-
-  // اعتراض الحدث قبل عرض مطالبة التثبيت
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    
-    // إنشاء زر التثبيت
-    const installButton = document.createElement('button');
-    installButton.textContent = 'ثبِّت التطبيق';
-    installButton.className = 'nav-btn';
-    installButton.style.margin = '10px auto';
-    installButton.style.display = 'block'; // تصحيح التداخل
-    installButton.onclick = () => {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then(() => {
-        deferredPrompt = null;
-        installButton.style.display = 'none'; // إخفاء الزر بعد التثبيت
-      });
-    };
-    
-    document.querySelector('.nav-buttons').appendChild(installButton);
-  });
-
-  // إخفاء الزر إذا تم التثبيت مسبقًا
-  window.addEventListener('appinstalled', () => {
-    const installButton = document.querySelector('.nav-btn[onclick]');
-    if (installButton) installButton.style.display = 'none';
-  });
-</script>
 </body>
 </html>
